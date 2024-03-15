@@ -31,7 +31,7 @@
     "test": "npm run gyp:rebuild && electron exmaples/playground/index.js",
     "prepublishOnly": "npm run build",
     "publish-me": "npm publish --access public",
-    "install": "if [ ! "$(uname)" = "Darwin" ]; then npm run gyp:configure && npm run gyp:rebuild; fi"
+    "install": "if [ ! \"$(uname)\" = \"Darwin\" ]; then npm run gyp:configure && npm run gyp:rebuild; fi"
   },
   "dependencies": {
     "bindings": "^1.5.0",
