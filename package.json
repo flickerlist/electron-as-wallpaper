@@ -31,7 +31,7 @@
     "test": "npm run gyp:rebuild && electron exmaples/playground/index.js",
     "prepublishOnly": "npm run build",
     "publish-me": "npm publish --access public",
-    "install": "sh ./build/build.sh"
+    "install": "sh ./scripts/build.sh"
   },
   "dependencies": {
     "bindings": "^1.5.0",
@@ -51,8 +51,7 @@
   "files": [
     "dist",
     "lib",
-    "binding.gyp",
-    "build"
+    "binding.gyp"
   ],
   "gypfile": true,
   "license": "mit"
