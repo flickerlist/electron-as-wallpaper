@@ -51,7 +51,8 @@
   "files": [
     "dist",
     "lib",
-    "binding.gyp"
+    "binding.gyp",
+    "build"
   ],
   "gypfile": true,
   "license": "mit"
