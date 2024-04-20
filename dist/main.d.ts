@@ -17,6 +17,7 @@ interface AttachOptions {
      */
     forwardKeyboardInput?: boolean;
 }
+declare const setTopWin: (win: BrowserWindow) => void;
 /**
  * Set window behind desktop icons
  */
@@ -30,4 +31,4 @@ declare const detach: (win: BrowserWindow) => void;
  */
 declare const refresh: () => void;
 
-export { type AttachOptions, attach, detach, refresh };
+export { type AttachOptions, attach, detach, refresh, setTopWin };
