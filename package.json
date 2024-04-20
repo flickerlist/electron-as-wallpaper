@@ -39,7 +39,6 @@
     "node-api-headers": "^1.1.0"
   },
   "devDependencies": {
-    "@meslzy/eslint-config": "^0.5.7",
     "@meslzy/tsconfig": "^0.2.5",
     "@types/bindings": "^1.5.5",
     "@types/node": "^20.11.25",
