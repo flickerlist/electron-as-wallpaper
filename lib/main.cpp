@@ -242,6 +242,65 @@ void stopForwardingRawInput() {
     rawInputWindowHandle = nullptr;
 }
 
+HWND GetProgmanWnd()
+{
+  return FindWindow("Progman", "Program Manager");
+}
+
+
+void SetTopWinFunc(HWND hWnd)
+{
+    HWND hWndDesktop = nullptr;
+
+    do
+    {
+      HWND hWndProgMan = GetProgmanWnd();
+      if (hWndProgMan)
+      {
+        HWND hWndSellDefView = FindWindowEx(hWndProgMan, nullptr, "SHELLDLL_DefView", nullptr);
+        if (hWndSellDefView)
+        {
+          hWndDesktop = FindWindowEx(hWndSellDefView, nullptr, "SysListView32", nullptr);
+        }
+      }
+
+      if (hWndDesktop)	break;
+
+      HWND hWorkerW = nullptr;
+      HWND hShellDefView = nullptr;
+      while (!hWndDesktop)
+      {
+        hWorkerW = ::FindWindowEx(nullptr, hWorkerW, "WorkerW", nullptr);
+        if (hWorkerW == nullptr) break;
+
+
+        hShellDefView = ::FindWindowEx(hWorkerW, nullptr, "SHELLDLL_DefView", nullptr);
+        if (hShellDefView == nullptr) continue;
+
+        hWndDesktop = hShellDefView;
+      }
+
+      if (hWndDesktop)	break;
+    } while (true);
+
+    if (hWndDesktop)
+    {
+      SetWindowLong(hWnd, -8, (LONG)hWndDesktop);
+    }
+}
+
+void setTopWin(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
+
+    auto buffer = info[0].As<Napi::Buffer<void*> >();
+    HWND windowHandle = static_cast<HWND>(*buffer.Data());
+    if (windowHandle)
+    {
+      SetTopWinFunc(windowHandle);
+    }
+}
+
 void attach(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
@@ -328,6 +387,7 @@ void refresh(const Napi::CallbackInfo &info) {
 }
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
+    exports.Set(Napi::String::New(env, "setTopWin"), Napi::Function::New(env, setTopWin));
     exports.Set(Napi::String::New(env, "attach"), Napi::Function::New(env, attach));
     exports.Set(Napi::String::New(env, "detach"), Napi::Function::New(env, detach));
     exports.Set(Napi::String::New(env, "refresh"), Napi::Function::New(env, refresh));

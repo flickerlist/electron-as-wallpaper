@@ -28,6 +28,18 @@ const attachOptions: AttachOptions = {
   forwardKeyboardInput: false,
 };
 
+const setTopWin = (win: BrowserWindow) => {
+  if (win === undefined) {
+    throw Error("You need to pass a window to be able to attaching");
+  }
+
+  if (typeof win.getNativeWindowHandle !== "function") {
+    throw Error("You need too pass a window type of Electron.BrowserWindow");
+  }
+
+  electronAsWallpaper.setTopWin(win.getNativeWindowHandle());
+};
+
 /**
  * Set window behind desktop icons
  */
@@ -73,6 +85,7 @@ export type {
 };
 
 export {
+  setTopWin,
   attach,
   detach,
   refresh,
